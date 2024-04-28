@@ -1,6 +1,6 @@
 name: Check ggsipu updates
 
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} executed action to check for ggsipu updates. 🔎
 
 on:
   workflow_dispatch:
@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v4 # Checkout the repository content to github runner

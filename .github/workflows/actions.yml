@@ -3,9 +3,9 @@ name: Check ggsipu updates
 run-name: ${{ github.actor }} executed action to check for ggsipu updates. 🔎
 
 on:
-  # workflow_dispatch: # run manually
   schedule: 
     - cron: '*/5 * * * *' # run every 5 minutes
+  # workflow_dispatch: # run manually
 
 jobs:
   build:

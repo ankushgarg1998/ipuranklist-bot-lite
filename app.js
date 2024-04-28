@@ -51,7 +51,20 @@ function sanitizePdfTitle(title) {
         .replace('_', '-').trim();
 }
 
+// Writes the content of dataObj to the data.json file.
+function writeDataFile() {
+    fs.writeFileSync('./data/data.json', JSON.stringify(dataObj, null, 4), 'utf8', (err) => {
+        if (err) {
+            log('=> Error in writing data to file:');
+            log(err);
+        } else {
+            log('=> Data written to file successfully.');
+        }
+    });
+}
 
+// -----------------------------------------------------------------------------------------------
+// === TELEGRAM CRON HANDLER FUNCTIONS ===
 // Function to handle 'cron' executions
 function handleCronExecution(entryType) {
     log(`Running the new-${entryType} checker.`);
@@ -61,6 +74,7 @@ function handleCronExecution(entryType) {
             log(`=> Found updated ${entryType} entries.`);
             notifyMaster(entryType, message);
             dataObj.savedMessages[entryType] = message;
+            writeDataFile();
         } else {
             log('=> No updates.\n');
         }
@@ -86,4 +100,7 @@ function notifyMaster(entryType, message) {
         });
 };
 
+// -----------------------------------------------------------------------------------------------
+// === LAUNCH ===
+// Launching the cron.
 handleCronExecution('result');

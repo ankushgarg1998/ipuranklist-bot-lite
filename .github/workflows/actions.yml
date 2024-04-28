@@ -1,0 +1,41 @@
+name: Test
+
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on:
+  workflow_dispatch:
+  # schedule: 
+  #   - cron: '*/5 * * * *' # run every 5 minutes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4 # Checkout the repository content to github runner
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14.17.0' # install the node version needed
+          
+      - name: install npm packages
+        run: npm install # install the npm packages
+          
+      - name: execute node script # run app.js
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: node app.js
+          
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
+          
+      - name: push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master 

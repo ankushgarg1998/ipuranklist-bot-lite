@@ -3,7 +3,6 @@ const axios = require('axios');
 const { JSDOM } = require("jsdom");
 const { Telegram } = require('telegraf');
 
-require('./config/config');
 var { log } = require('./util/logger');
 var dataObj = JSON.parse(fs.readFileSync('./data/data.json', 'utf8'));
 

@@ -20,7 +20,8 @@ const markD = { "parse_mode": "Markdown" };
 function extractEntriesFromPage(entryType, htmlPage) {
     let numberOfEntries = 10;
     let html = new JSDOM(htmlPage);
-    let tb = html.window.document.querySelector("table").lastElementChild;
+    // let tb = html.window.document.querySelector("table").lastElementChild;
+    let tb = html.window.document.querySelector("table").firstElementChild;
     let rows = [...tb.children].slice(0, numberOfEntries);
     let message = `📅 *RECENT ${numberOfEntries} ${entryType.toUpperCase()}S :*\n\n`;
     rows.forEach(row => {
@@ -69,6 +70,7 @@ function handleCronExecution(entryType) {
     log(`Running the new-${entryType} checker.`);
     axios.get(dataObj.urls[entryType]).then(res => {
         let message = extractEntriesFromPage(entryType, res.data);
+        console.log(message);
         if (message !== dataObj.savedMessages[entryType]) {
             log(`=> Found updated ${entryType} entries.`);
             notifyMaster(entryType, message);

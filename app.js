@@ -22,7 +22,7 @@ function extractEntriesFromPage(entryType, htmlPage) {
     let html = new JSDOM(htmlPage);
     // let tb = html.window.document.querySelector("table").lastElementChild;
     let tb = html.window.document.querySelector("table").firstElementChild;
-    let rows = [...tb.children].slice(0, numberOfEntries);
+    let rows = [...tb.children].slice(1, numberOfEntries);
     let message = `📅 *RECENT ${numberOfEntries} ${entryType.toUpperCase()}S :*\n\n`;
     rows.forEach(row => {
         let dateElementMessage = "---";
